@@ -28,8 +28,7 @@ const theme = {
   ...MD3DarkTheme,
   colors: {
     ...MD3DarkTheme.colors,
-    // primary: "#9EEAF9",
     secondary: "#9575CD",
-    // backgroundColor: "#2C2E3B",
+    backgroundColor: "#2C2E3B",
   },
 };
