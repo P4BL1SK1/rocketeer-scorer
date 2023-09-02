@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import Dashboard from "./views/Dashboard";
-import { DefaultTheme, MD3DarkTheme, PaperProvider } from "react-native-paper";
+import Dashboard from "./src/views/Dashboard";
+import { MD3DarkTheme, PaperProvider } from "react-native-paper";
 
 export default function App() {
   return (
