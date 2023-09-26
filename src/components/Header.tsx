@@ -1,6 +1,6 @@
 import { Image, StyleSheet, View } from "react-native";
-import logo from "../assets/logo.png";
 import logoRL from "../assets/logo-rl.png";
+import logo from "../assets/logo.png";
 
 const Header = () => (
   <View style={styles.logosContainer}>
