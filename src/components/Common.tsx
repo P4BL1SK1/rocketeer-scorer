@@ -1,24 +1,21 @@
-import { Button, withTheme } from "react-native-paper";
-import { MD3Theme } from "react-native-paper/lib/typescript/types";
+import { Button } from "react-native-paper";
 
 interface StyledButtonProps {
-  theme: MD3Theme;
+  color: string;
   onPress: (param?: any) => void;
   label: string;
 }
 
-export const StyledButton = withTheme(
-  ({ theme, onPress, label }: StyledButtonProps) => (
-    <Button
-      style={{
-        width: 150,
-        margin: 5,
-        backgroundColor: theme.colors?.primary,
-      }}
-      mode="contained"
-      onPress={onPress}
-    >
-      {label}
-    </Button>
-  )
+export const StyledButton = ({ color, onPress, label }: StyledButtonProps) => (
+  <Button
+    style={{
+      width: 150,
+      margin: 5,
+      backgroundColor: color,
+    }}
+    mode="contained"
+    onPress={onPress}
+  >
+    {label}
+  </Button>
 );

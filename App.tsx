@@ -1,14 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import Dashboard from "./src/views/Dashboard";
 import { MD3DarkTheme, PaperProvider } from "react-native-paper";
+import Dashboard from "./src/views/Dashboard";
 
 export default function App() {
   return (
     <PaperProvider theme={theme}>
       <View style={styles.container}>
         <Dashboard />
-
         <StatusBar style="auto" />
       </View>
     </PaperProvider>
@@ -28,7 +27,9 @@ const theme = {
   ...MD3DarkTheme,
   colors: {
     ...MD3DarkTheme.colors,
+    primary: "#00FF00",
     secondary: "#9575CD",
     backgroundColor: "#2C2E3B",
+    error: "#FF0000",
   },
 };

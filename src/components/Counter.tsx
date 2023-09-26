@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { Audio } from "expo-av";
 import { StyleSheet, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
+import { useCounter } from "../hooks";
 import { StyledButton } from "./Common";
 
 const Counter = () => {
-  const theme = useTheme();
-  const [counter, setCounter] = useState(0);
+  const { colors } = useTheme();
+  const { counter, increment, decrement } = useCounter();
 
-  const handleIncreaseCounter = () => {
-    setCounter(counter + 1);
+  const onPressIncrement = async () => {
+    increment();
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/sounds/hibrido.mp3")
+    );
+    await sound.playAsync();
   };
 
-  const handleDecreaseCounter = () => {
-    setCounter(counter - 1);
+  const onPressDecrement = async () => {
+    decrement();
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/sounds/irma.mp3")
+    );
+    await sound.playAsync();
   };
 
   return (
@@ -20,15 +29,22 @@ const Counter = () => {
       <View
         style={{
           ...styles.counterValueContainer,
-          backgroundColor: theme.colors.secondaryContainer,
+          backgroundColor: colors.secondaryContainer,
         }}
       >
         <Text style={styles.counterValue}>{counter}</Text>
       </View>
-
       <View style={styles.buttonsContainer}>
-        <StyledButton label="+" onPress={handleIncreaseCounter} />
-        <StyledButton label="-" onPress={handleDecreaseCounter} />
+        <StyledButton
+          label="+"
+          onPress={onPressIncrement}
+          color={colors.primary}
+        />
+        <StyledButton
+          label="-"
+          onPress={onPressDecrement}
+          color={colors.error}
+        />
       </View>
     </View>
   );
@@ -53,7 +69,8 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: "100%",
     display: "flex",
-    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
     marginTop: 100,
   },
 });

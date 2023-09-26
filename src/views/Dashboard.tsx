@@ -7,7 +7,6 @@ const Dashboard = () => {
   return (
     <View style={styles.container}>
       <Header />
-
       <Counter />
     </View>
   );
