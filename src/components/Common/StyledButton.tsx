@@ -3,20 +3,28 @@ import { Button } from "react-native-paper";
 interface StyledButtonProps {
   color: string;
   onPress: (param?: any) => void;
-  label: string;
+  children: any;
+  width?: number;
 }
 
-export const StyledButton = ({ color, onPress, label }: StyledButtonProps) => (
+const StyledButton = ({
+  color,
+  onPress,
+  children,
+  width = 150,
+}: StyledButtonProps) => (
   <Button
     textColor="#FFFFFF"
     style={{
-      width: 150,
+      width,
       margin: 5,
       backgroundColor: color,
     }}
     mode="contained"
     onPress={onPress}
   >
-    {label}
+    {children}
   </Button>
 );
+
+export default StyledButton;

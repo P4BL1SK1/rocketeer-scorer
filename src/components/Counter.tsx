@@ -1,12 +1,14 @@
 import { Audio } from "expo-av";
 import { StyleSheet, View } from "react-native";
-import { Text, useTheme } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { useCounter } from "../hooks";
-import { StyledButton } from "./Common";
+import StyledButton from "./Common/StyledButton";
+import { useTheme } from "../../theme";
+import DialogButtonIcon from "./Common/DialogButtonIcon";
 
 const Counter = () => {
   const { colors } = useTheme();
-  const { counter, increment, decrement } = useCounter();
+  const { counter, increment, decrement, reset } = useCounter();
 
   const onPressIncrement = async () => {
     increment();
@@ -26,6 +28,17 @@ const Counter = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.dialogContainer}>
+        <DialogButtonIcon
+          icon="backup-restore"
+          text="Reset scorer"
+          dialogText="Are you sure you want to reset the scorer?"
+          onAccept={() => reset()}
+          onCancel={() => {
+            return;
+          }}
+        />
+      </View>
       <View
         style={{
           ...styles.counterValueContainer,
@@ -35,17 +48,13 @@ const Counter = () => {
         <Text style={styles.counterValue}>{counter}</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <StyledButton
-          label="Perdido"
-          onPress={onPressDecrement}
-          color={colors.error}
-        />
+        <StyledButton onPress={onPressDecrement} color={colors.cancel}>
+          Perdido
+        </StyledButton>
 
-        <StyledButton
-          label="Ganado"
-          onPress={onPressIncrement}
-          color={colors.primary}
-        />
+        <StyledButton onPress={onPressIncrement} color={colors.success}>
+          Ganado
+        </StyledButton>
       </View>
     </View>
   );
@@ -58,6 +67,13 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  dialogContainer: {
+    marginBottom: 100,
+    marginTop: -100,
+    width: 350,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
   counterValueContainer: {
     borderRadius: 17,

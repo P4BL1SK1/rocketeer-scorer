@@ -3,14 +3,12 @@ import { StyleSheet, View } from "react-native";
 import Counter from "../components/Counter";
 import Header from "../components/Header";
 
-const Dashboard = () => {
-  return (
-    <View style={styles.container}>
-      <Header />
-      <Counter />
-    </View>
-  );
-};
+const Dashboard = () => (
+  <View style={styles.container}>
+    <Header />
+    <Counter />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
