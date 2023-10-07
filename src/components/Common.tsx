@@ -8,6 +8,7 @@ interface StyledButtonProps {
 
 export const StyledButton = ({ color, onPress, label }: StyledButtonProps) => (
   <Button
+    textColor="#FFFFFF"
     style={{
       width: 150,
       margin: 5,

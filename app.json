@@ -1,7 +1,7 @@
 {
   "expo": {
     "owner": "partidotrabajadorsocialista",
-    "name": "RocketeerScorer",
+    "name": "rocketeerscorer",
     "slug": "RocketeerScorer",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#2C2E3B"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

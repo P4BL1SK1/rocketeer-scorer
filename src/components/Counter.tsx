@@ -36,14 +36,15 @@ const Counter = () => {
       </View>
       <View style={styles.buttonsContainer}>
         <StyledButton
-          label="+"
-          onPress={onPressIncrement}
-          color={colors.primary}
-        />
-        <StyledButton
-          label="-"
+          label="Perdido"
           onPress={onPressDecrement}
           color={colors.error}
+        />
+
+        <StyledButton
+          label="Ganado"
+          onPress={onPressIncrement}
+          color={colors.primary}
         />
       </View>
     </View>
