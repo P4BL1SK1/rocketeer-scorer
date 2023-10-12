@@ -1,10 +1,10 @@
-import { Audio } from "expo-av";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import { useCounter } from "../hooks";
-import StyledButton from "./Common/StyledButton";
 import { useTheme } from "../../theme";
-import DialogButtonIcon from "./Common/DialogButtonIcon";
+import { HIBRIDO, IRMA } from "../assets/sounds";
+import { playSound } from "../helpers";
+import { useCounter } from "../hooks";
+import { DialogButtonIcon, StyledButton } from "./common";
 
 const Counter = () => {
   const { colors } = useTheme();
@@ -12,18 +12,12 @@ const Counter = () => {
 
   const onPressIncrement = async () => {
     increment();
-    const { sound } = await Audio.Sound.createAsync(
-      require("../assets/sounds/hibrido.mp3")
-    );
-    await sound.playAsync();
+    await playSound(HIBRIDO);
   };
 
   const onPressDecrement = async () => {
     decrement();
-    const { sound } = await Audio.Sound.createAsync(
-      require("../assets/sounds/irma.mp3")
-    );
-    await sound.playAsync();
+    await playSound(IRMA);
   };
 
   return (
@@ -33,10 +27,11 @@ const Counter = () => {
           icon="backup-restore"
           text="Reset scorer"
           dialogText="Are you sure you want to reset the scorer?"
-          onAccept={() => reset()}
+          onAccept={reset}
           onCancel={() => {
             return;
           }}
+          disabled={counter === 0}
         />
       </View>
       <View
@@ -51,7 +46,6 @@ const Counter = () => {
         <StyledButton onPress={onPressDecrement} color={colors.cancel}>
           Perdido
         </StyledButton>
-
         <StyledButton onPress={onPressIncrement} color={colors.success}>
           Ganado
         </StyledButton>

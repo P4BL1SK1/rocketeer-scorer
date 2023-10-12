@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { View } from "react-native";
 import { Dialog, IconButton, Portal, Text, Tooltip } from "react-native-paper";
-import StyledButton from "./StyledButton";
-import { Theme, useTheme } from "../../../theme";
+import { useTheme } from "../../../theme";
+import { StyledButton } from "./StyledButton";
 
 interface DialogButtonIconProps {
   icon: string;
@@ -10,14 +10,16 @@ interface DialogButtonIconProps {
   dialogText: string;
   onAccept: Function;
   onCancel: Function;
+  disabled: boolean;
 }
 
-const DialogButtonIcon = ({
+export const DialogButtonIcon = ({
   icon,
   text,
   dialogText,
   onAccept,
   onCancel,
+  disabled,
 }: DialogButtonIconProps) => {
   const { colors } = useTheme();
   const [visible, setVisible] = useState(false);
@@ -38,7 +40,12 @@ const DialogButtonIcon = ({
   return (
     <View>
       <Tooltip title={text}>
-        <IconButton icon={icon} onPress={handleOpen} size={24} />
+        <IconButton
+          icon={icon}
+          onPress={handleOpen}
+          iconColor={colors.reset}
+          disabled={disabled}
+        />
       </Tooltip>
 
       <Portal>
@@ -70,5 +77,3 @@ const DialogButtonIcon = ({
     </View>
   );
 };
-
-export default DialogButtonIcon;

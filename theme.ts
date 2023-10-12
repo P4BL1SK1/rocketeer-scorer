@@ -9,6 +9,7 @@ type Colors = ThemeColors & CustomColors;
 type CustomColors = {
   success: string;
   cancel: string;
+  reset: string
 };
 
 export interface Theme extends MD3Theme {
@@ -23,6 +24,7 @@ const theme: Theme = {
     background: "#2C2E3B",
     success: "#4caf50",
     cancel: "#f44336",
+    reset: "#FFBF00",
   },
 };
 

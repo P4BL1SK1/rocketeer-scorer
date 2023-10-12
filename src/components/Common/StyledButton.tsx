@@ -7,7 +7,7 @@ interface StyledButtonProps {
   width?: number;
 }
 
-const StyledButton = ({
+export const StyledButton = ({
   color,
   onPress,
   children,
@@ -26,5 +26,3 @@ const StyledButton = ({
     {children}
   </Button>
 );
-
-export default StyledButton;
