@@ -4,19 +4,23 @@ import { useTheme } from "../../theme";
 import { HIBRIDO, IRMA } from "../assets/sounds";
 import { playSound } from "../helpers";
 import { useCounter } from "../hooks";
+import { GamesPlayed } from "./GamesPlayed";
 import { DialogButtonIcon, StyledButton } from "./common";
 
 const Counter = () => {
   const { colors } = useTheme();
   const { counter, increment, decrement, reset } = useCounter();
+  const { counter: games, increment: incrementGames } = useCounter();
 
   const onPressIncrement = async () => {
     increment();
+    incrementGames();
     await playSound(HIBRIDO);
   };
 
   const onPressDecrement = async () => {
     decrement();
+    incrementGames();
     await playSound(IRMA);
   };
 
@@ -25,7 +29,6 @@ const Counter = () => {
       <View style={styles.dialogContainer}>
         <DialogButtonIcon
           icon="backup-restore"
-          text="Reset scorer"
           dialogText="Are you sure you want to reset the scorer?"
           onAccept={reset}
           onCancel={() => {
@@ -42,6 +45,7 @@ const Counter = () => {
       >
         <Text style={styles.counterValue}>{counter}</Text>
       </View>
+      <GamesPlayed games={games} />
       <View style={styles.buttonsContainer}>
         <StyledButton onPress={onPressDecrement} color={colors.cancel}>
           Perdido
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
-    marginTop: 100,
+    marginTop: 70,
   },
 });
 

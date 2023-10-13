@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { View } from "react-native";
-import { Dialog, IconButton, Portal, Text, Tooltip } from "react-native-paper";
+import { Dialog, IconButton, Portal, Text } from "react-native-paper";
 import { useTheme } from "../../../theme";
 import { StyledButton } from "./StyledButton";
 
 interface DialogButtonIconProps {
   icon: string;
-  text?: string;
   dialogText: string;
   onAccept: Function;
   onCancel: Function;
@@ -15,7 +14,6 @@ interface DialogButtonIconProps {
 
 export const DialogButtonIcon = ({
   icon,
-  text,
   dialogText,
   onAccept,
   onCancel,
@@ -39,22 +37,18 @@ export const DialogButtonIcon = ({
 
   return (
     <View>
-      <Tooltip title={text}>
-        <IconButton
-          icon={icon}
-          onPress={handleOpen}
-          iconColor={colors.reset}
-          disabled={disabled}
-        />
-      </Tooltip>
-
+      <IconButton
+        icon={icon}
+        onPress={handleOpen}
+        iconColor={colors.reset}
+        disabled={disabled}
+      />
       <Portal>
         <Dialog visible={visible} onDismiss={handleDismiss}>
           <Dialog.Title>Alert</Dialog.Title>
           <Dialog.Content>
             <Text variant="bodyMedium">{dialogText}</Text>
           </Dialog.Content>
-
           <Dialog.Actions>
             <StyledButton
               color={colors.cancel}
@@ -63,7 +57,6 @@ export const DialogButtonIcon = ({
             >
               Cancel
             </StyledButton>
-
             <StyledButton
               color={colors.success}
               onPress={handleAccept}
