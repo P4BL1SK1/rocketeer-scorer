@@ -1,8 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useTheme } from "../../theme";
-import { HIBRIDO, IRMA } from "../assets/sounds";
-import { playSound } from "../helpers";
+import { getRandomSound, playSound } from "../helpers";
 import { useCounter } from "../hooks";
 import { GamesPlayed } from "./GamesPlayed";
 import { DialogButtonIcon, StyledButton } from "./common";
@@ -15,13 +14,13 @@ const Counter = () => {
   const onPressIncrement = async () => {
     increment();
     incrementGames();
-    await playSound(HIBRIDO);
+    await playSound(getRandomSound());
   };
 
   const onPressDecrement = async () => {
     decrement();
     incrementGames();
-    await playSound(IRMA);
+    await playSound(getRandomSound());
   };
 
   return (
