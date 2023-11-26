@@ -8,18 +8,21 @@ import { DialogButtonIcon, StyledButton } from "./common";
 
 const Counter = () => {
   const { colors } = useTheme();
-  const { counter, increment, decrement, reset } = useCounter();
-  const { counter: games, increment: incrementGames } = useCounter();
+  const {
+    counter,
+    increment,
+    decrement,
+    reset,
+    gamesPlayed: games,
+  } = useCounter();
 
   const onPressIncrement = async () => {
     increment();
-    incrementGames();
     await playSound(getRandomSound());
   };
 
   const onPressDecrement = async () => {
     decrement();
-    incrementGames();
     await playSound(getRandomSound());
   };
 
@@ -33,7 +36,7 @@ const Counter = () => {
           onCancel={() => {
             return;
           }}
-          disabled={counter === 0}
+          disabled={games === 0}
         />
       </View>
       <View
