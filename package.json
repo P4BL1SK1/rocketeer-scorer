@@ -4,7 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "npx expo start",
-    "build:dev": "eas build -p android --profile dev",
+    "build:dev": "eas build --profile dev -p",
     "make:dev": "npx expo run:android",
     "android": "npx expo run:android",
     "ios": "npx expo run:ios",
