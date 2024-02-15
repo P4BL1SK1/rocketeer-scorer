@@ -1,8 +1,8 @@
-import { Image, StyleSheet, View } from "react-native";
-import logoRL from "../assets/logo-rl.png";
-import logo from "../assets/logo.png";
+import { Image, StyleSheet, View } from 'react-native';
+import logoRL from '../assets/logo-rl.png';
+import logo from '../assets/logo.png';
 
-const Header = () => (
+export const Header = () => (
   <View style={styles.logosContainer}>
     <Image style={styles.logo} source={logoRL} />
     <Image source={logo} />
@@ -19,11 +19,9 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   logosContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
-
-export default Header;

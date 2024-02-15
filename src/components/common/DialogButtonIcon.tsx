@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { View } from "react-native";
-import { Dialog, IconButton, Portal, Text } from "react-native-paper";
-import { useTheme } from "../../../theme";
-import { StyledButton } from "./StyledButton";
+import { useState } from 'react';
+import { View } from 'react-native';
+import { Dialog, IconButton, Portal, Text } from 'react-native-paper';
+import { useTheme } from '../../../theme';
+import { StyledButton } from './StyledButton';
 
 interface DialogButtonIconProps {
   icon: string;
@@ -12,13 +12,7 @@ interface DialogButtonIconProps {
   disabled: boolean;
 }
 
-export const DialogButtonIcon = ({
-  icon,
-  dialogText,
-  onAccept,
-  onCancel,
-  disabled,
-}: DialogButtonIconProps) => {
+export const DialogButtonIcon = ({ icon, dialogText, onAccept, onCancel, disabled }: DialogButtonIconProps) => {
   const { colors } = useTheme();
   const [visible, setVisible] = useState(false);
 
@@ -37,12 +31,7 @@ export const DialogButtonIcon = ({
 
   return (
     <View>
-      <IconButton
-        icon={icon}
-        onPress={handleOpen}
-        iconColor={colors.reset}
-        disabled={disabled}
-      />
+      <IconButton icon={icon} onPress={handleOpen} iconColor={colors.reset} disabled={disabled} />
       <Portal>
         <Dialog visible={visible} onDismiss={handleDismiss}>
           <Dialog.Title>Alert</Dialog.Title>
@@ -50,18 +39,10 @@ export const DialogButtonIcon = ({
             <Text variant="bodyMedium">{dialogText}</Text>
           </Dialog.Content>
           <Dialog.Actions>
-            <StyledButton
-              color={colors.cancel}
-              onPress={handleCancel}
-              width={100}
-            >
+            <StyledButton color={colors.cancel} onPress={handleCancel} width={100}>
               Cancel
             </StyledButton>
-            <StyledButton
-              color={colors.success}
-              onPress={handleAccept}
-              width={100}
-            >
+            <StyledButton color={colors.success} onPress={handleAccept} width={100}>
               Accept
             </StyledButton>
           </Dialog.Actions>

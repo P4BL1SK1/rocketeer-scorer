@@ -1,9 +1,7 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import Counter from "../components/Counter";
-import Header from "../components/Header";
+import { StyleSheet, View } from 'react-native';
+import { Counter, Header } from '../components';
 
-const Dashboard = () => (
+export const Dashboard = () => (
   <View style={styles.container}>
     <Header />
     <Counter />
@@ -13,10 +11,8 @@ const Dashboard = () => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
-
-export default Dashboard;

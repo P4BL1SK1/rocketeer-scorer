@@ -1,2 +1,2 @@
-export * from "./DialogButtonIcon";
-export * from "./StyledButton";
+export * from './DialogButtonIcon';
+export * from './StyledButton';
