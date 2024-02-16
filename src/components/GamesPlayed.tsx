@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
-import { useTheme } from "../../theme";
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import { useTheme } from '../../theme';
 
 interface GamesPlayedProps {
   games: number;
@@ -27,9 +27,9 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     marginTop: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textValue: {
     fontSize: 20,

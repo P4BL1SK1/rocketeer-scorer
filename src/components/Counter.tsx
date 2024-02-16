@@ -1,28 +1,25 @@
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
-import { useTheme } from "../../theme";
-import { getRandomSound, playSound } from "../helpers";
-import { useCounter } from "../hooks";
-import { GamesPlayed } from "./GamesPlayed";
-import { DialogButtonIcon, StyledButton } from "./common";
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTheme } from '../../theme';
+import { getRandomSound, playSound } from '../helpers';
+import { RootState } from '../store';
+import { decrement, increment, reset } from '../store/slices/counter';
+import { GamesPlayed } from './';
+import { DialogButtonIcon, StyledButton } from './common';
 
-const Counter = () => {
+export const Counter = () => {
   const { colors } = useTheme();
-  const {
-    counter,
-    increment,
-    decrement,
-    reset,
-    gamesPlayed: games,
-  } = useCounter();
+  const { counter, gamesPlayed } = useSelector((state: RootState) => state.counter);
+  const dispatch = useDispatch();
 
   const onPressIncrement = async () => {
-    increment();
+    dispatch(increment());
     await playSound(getRandomSound());
   };
 
   const onPressDecrement = async () => {
-    decrement();
+    dispatch(decrement());
     await playSound(getRandomSound());
   };
 
@@ -32,11 +29,11 @@ const Counter = () => {
         <DialogButtonIcon
           icon="backup-restore"
           dialogText="Are you sure you want to reset the scorer?"
-          onAccept={reset}
+          onAccept={() => dispatch(reset())}
           onCancel={() => {
             return;
           }}
-          disabled={games === 0}
+          disabled={gamesPlayed === 0}
         />
       </View>
       <View
@@ -47,7 +44,7 @@ const Counter = () => {
       >
         <Text style={styles.counterValue}>{counter}</Text>
       </View>
-      <GamesPlayed games={games} />
+      <GamesPlayed games={gamesPlayed} />
       <View style={styles.buttonsContainer}>
         <StyledButton onPress={onPressDecrement} color={colors.cancel}>
           Perdido
@@ -63,33 +60,31 @@ const Counter = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'column',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   dialogContainer: {
     marginBottom: 100,
     marginTop: -100,
     width: 350,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   counterValueContainer: {
     borderRadius: 17,
     width: 250,
   },
   counterValue: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 150,
   },
   buttonsContainer: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginTop: 70,
   },
 });
-
-export default Counter;
