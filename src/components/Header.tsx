@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
   logosContainer: {
     flexDirection: 'row',
-    marginTop: 50,
+    marginTop: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
