@@ -2,13 +2,13 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '../../theme';
+import { GamesPlayed } from '../components/GamesPlayed';
+import { DialogButtonIcon, StyledButton } from '../components/common';
 import { getRandomSound, playSound } from '../helpers';
 import { RootState } from '../store';
 import { decrement, increment, reset } from '../store/slices/counter';
-import { GamesPlayed } from './';
-import { DialogButtonIcon, StyledButton } from './common';
 
-export const Counter = () => {
+export const Session = () => {
   const { colors } = useTheme();
   const { counter, gamesPlayed } = useSelector((state: RootState) => state.counter);
   const dispatch = useDispatch();
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
     marginTop: 70,
   },
