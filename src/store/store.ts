@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { counterSlice } from './slices/counter';
+import { sessionSlice } from './session';
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer,
+    session: sessionSlice.reducer,
   },
 });
 

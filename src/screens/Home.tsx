@@ -4,21 +4,29 @@ import { useTheme } from '../../theme';
 import { Header } from '../components';
 import { StyledButton } from '../components/common';
 import { RootStackParamList } from '../navigation';
+import { useAppDispatch } from '../store';
+import { startSession } from '../store/session';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export const Home = ({ navigation }: HomeProps) => {
   const { colors } = useTheme();
+  const dispatch = useAppDispatch();
+
+  const onPressNewSession = () => {
+    dispatch(startSession());
+    navigation.navigate('Session');
+  };
 
   return (
     <>
       <Header />
       <View style={styles.container}>
-        <StyledButton color={colors.onPrimary} onPress={() => navigation.navigate('Session')}>
-          Nueva Sesion
+        <StyledButton color={colors.onPrimary} onPress={onPressNewSession}>
+          New Session
         </StyledButton>
         <StyledButton color={colors.onPrimary} onPress={() => console.log('Sesiones')}>
-          Sesiones
+          Sessions
         </StyledButton>
       </View>
     </>
