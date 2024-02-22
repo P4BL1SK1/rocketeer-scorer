@@ -1,2 +1,2 @@
-export * from './Header';
 export * from './GamesPlayed';
+export * from './Header';

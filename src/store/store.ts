@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { counterSlice } from './slices/counter';
+import reactotron from '../../reactotron';
+import { scorerSlice } from './session';
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer,
+    scorer: scorerSlice.reducer,
+  },
+  enhancers: (getDefaultEnhancers) => {
+    return __DEV__ ? getDefaultEnhancers().concat(reactotron.createEnhancer()) : getDefaultEnhancers();
   },
 });
 
