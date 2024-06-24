@@ -1,11 +1,11 @@
 import { Button } from 'react-native-paper';
 
-interface StyledButtonProps {
+type StyledButtonProps = {
   color: string;
   onPress: (param?: any) => void;
   children: any;
   width?: number;
-}
+};
 
 export const StyledButton = ({ color, onPress, children, width = 150 }: StyledButtonProps) => (
   <Button

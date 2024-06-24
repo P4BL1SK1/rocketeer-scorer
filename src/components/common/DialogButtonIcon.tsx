@@ -4,13 +4,13 @@ import { Dialog, IconButton, Portal, Text } from 'react-native-paper';
 import { useTheme } from '../../../theme';
 import { StyledButton } from './StyledButton';
 
-interface DialogButtonIconProps {
+type DialogButtonIconProps = {
   icon: string;
   dialogText: string;
   onAccept: Function;
   onCancel: Function;
   disabled: boolean;
-}
+};
 
 export const DialogButtonIcon = ({ icon, dialogText, onAccept, onCancel, disabled }: DialogButtonIconProps) => {
   const { colors } = useTheme();

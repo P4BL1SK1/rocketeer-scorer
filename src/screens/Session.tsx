@@ -1,26 +1,36 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '../../theme';
-import { GamesPlayed } from '../components/GamesPlayed';
+import { GamesPlayed } from '../components';
 import { DialogButtonIcon, StyledButton } from '../components/common';
 import { getRandomSound, playSound } from '../helpers';
-import { RootState } from '../store';
-import { decrement, increment, reset } from '../store/slices/counter';
+import { RootStackParamList } from '../navigation';
+import { useAppDispatch, useAppSelector } from '../store';
+import { decrement, finishSession, increment, reset, updateSession } from '../store/session';
 
-export const Session = () => {
+type HomeProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
+
+export const Session = ({ navigation }: HomeProps) => {
   const { colors } = useTheme();
-  const { counter, gamesPlayed } = useSelector((state: RootState) => state.counter);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { id, counter, played } = useAppSelector((state) => state.scorer.currentSession);
 
   const onPressIncrement = async () => {
     dispatch(increment());
+    dispatch(updateSession(id));
     await playSound(getRandomSound());
   };
 
   const onPressDecrement = async () => {
     dispatch(decrement());
+    dispatch(updateSession(id));
     await playSound(getRandomSound());
+  };
+
+  const onPressFinish = async () => {
+    dispatch(finishSession(id));
+    navigation.navigate('Home');
   };
 
   return (
@@ -33,7 +43,7 @@ export const Session = () => {
           onCancel={() => {
             return;
           }}
-          disabled={gamesPlayed === 0}
+          disabled={played === 0}
         />
       </View>
       <View
@@ -44,13 +54,18 @@ export const Session = () => {
       >
         <Text style={styles.counterValue}>{counter}</Text>
       </View>
-      <GamesPlayed games={gamesPlayed} />
+      <GamesPlayed played={played} />
       <View style={styles.buttonsContainer}>
         <StyledButton onPress={onPressDecrement} color={colors.cancel}>
           Perdido
         </StyledButton>
         <StyledButton onPress={onPressIncrement} color={colors.success}>
           Ganado
+        </StyledButton>
+      </View>
+      <View style={styles.finishContainer}>
+        <StyledButton onPress={onPressFinish} color={colors.shadow}>
+          Finalizar
         </StyledButton>
       </View>
     </View>
@@ -86,6 +101,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    marginTop: 70,
+    marginTop: 50,
+  },
+  finishContainer: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 20,
   },
 });

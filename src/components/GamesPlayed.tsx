@@ -2,11 +2,11 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useTheme } from '../../theme';
 
-interface GamesPlayedProps {
-  games: number;
-}
+type GamesPlayedProps = {
+  played: number;
+};
 
-export const GamesPlayed = ({ games }: GamesPlayedProps) => {
+export const GamesPlayed = ({ played }: GamesPlayedProps) => {
   const { colors } = useTheme();
 
   return (
@@ -16,7 +16,7 @@ export const GamesPlayed = ({ games }: GamesPlayedProps) => {
         backgroundColor: colors.secondaryContainer,
       }}
     >
-      <Text style={styles.textValue}>Partidos jugados: {games}</Text>
+      <Text style={styles.textValue}>Partidos jugados: {played}</Text>
     </View>
   );
 };
