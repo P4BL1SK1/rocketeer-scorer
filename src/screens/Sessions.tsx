@@ -1,15 +1,8 @@
-import { useEffect } from 'react';
 import { DataTable } from 'react-native-paper';
-import { useAppDispatch, useAppSelector } from '../store';
-import { getSessions } from '../store/session';
+import { useAppSelector } from '../store';
 
 export const Sessions = () => {
-  const dispatch = useAppDispatch();
   const { sessions } = useAppSelector((state) => state.scorer);
-
-  useEffect(() => {
-    dispatch(getSessions());
-  }, []);
 
   return (
     <DataTable>

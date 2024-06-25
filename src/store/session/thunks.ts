@@ -1,19 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
-import {
-  addDoc,
-  collection,
-  doc,
-  DocumentData,
-  getDocs,
-  limit,
-  query,
-  updateDoc,
-  where,
-} from 'firebase/firestore/lite';
+import { addDoc, collection, doc, DocumentData, getDocs, updateDoc } from 'firebase/firestore/lite';
 import { database } from '../../firebase/config';
 import { Session } from '../../types';
+import { RootState } from '../store';
 
 const newSession = {
   counter: 0,
@@ -29,12 +20,6 @@ export const createSession = createAsyncThunk('session/create', async () => {
   return { id: id, ...newSession };
 });
 
-export const getCurrentSession = createAsyncThunk('session/get', async () => {
-  const q = query(collection(database, 'sessions'), where('active', '==', true), limit(1));
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.empty ? null : { id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() };
-});
-
 export const getSessions = createAsyncThunk('session/getAll', async () => {
   const q = await getDocs(collection(database, 'sessions'));
   const sessions: Session[] = [];
@@ -44,11 +29,13 @@ export const getSessions = createAsyncThunk('session/getAll', async () => {
   return sessions;
 });
 
-export const updateSession = (id: string) => async (_dispatch, getState) => {
-  const { counter, played, won, lost } = getState().scorer.currentSession;
+export const updateSession = createAsyncThunk('session/update', async (id: string, { getState }) => {
+  const state = getState() as RootState;
+  const { currentSession } = state.scorer;
   const sessionRef = doc(database, 'sessions', id);
-  await updateDoc(sessionRef, { counter, played, won, lost });
-};
+  await updateDoc(sessionRef, currentSession);
+  return currentSession;
+});
 
 export const finishSession = createAsyncThunk('session/finish', async (id: string) => {
   await updateDoc(doc(database, 'sessions', id), { active: false });
