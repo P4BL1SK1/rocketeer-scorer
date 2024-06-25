@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Scorer, Session } from '../../types';
-import { createSession, finishSession, getCurrentSession, getSessions } from './thunks';
+import { createSession, finishSession, getSessions, updateSession } from './thunks';
 
 const initialState: Scorer = {
   currentSession: null,
   sessions: [],
+  loading: false,
 };
 
 export const scorerSlice = createSlice({
@@ -31,12 +32,23 @@ export const scorerSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(createSession.fulfilled, (state, action: PayloadAction<Session>) => {
       state.currentSession = action.payload;
+      state.sessions.push(action.payload);
+    });
+    builder.addCase(getSessions.pending, (state) => {
+      state.loading = true;
     });
     builder.addCase(getSessions.fulfilled, (state, action: PayloadAction<Session[]>) => {
+      const currentSession = action.payload.find((session) => session.active);
+      if (currentSession) {
+        state.currentSession = currentSession;
+      }
       state.sessions = action.payload;
+      state.loading = false;
     });
-    builder.addCase(getCurrentSession.fulfilled, (state, action: PayloadAction<any>) => {
+    builder.addCase(updateSession.fulfilled, (state, action: PayloadAction<Session>) => {
       state.currentSession = action.payload;
+      const index = state.sessions.findIndex((session) => session.id === action.payload.id);
+      state.sessions[index] = action.payload;
     });
     builder.addCase(finishSession.fulfilled, (state) => {
       state.currentSession = null;
