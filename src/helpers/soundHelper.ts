@@ -3,7 +3,7 @@ import * as sounds from '../assets/sounds';
 
 export const playSound = async (soundFile: AVPlaybackSource) => {
   const { sound } = await Audio.Sound.createAsync(soundFile);
-  await sound.playAsync();
+  await sound.setStatusAsync({ shouldPlay: true });
 };
 
 export const getRandomSound = () => {
