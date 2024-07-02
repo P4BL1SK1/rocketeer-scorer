@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 18
           cache: npm
 
       - name: Setup EAS
@@ -33,7 +33,9 @@ jobs:
           token: ${{secrets.EXPO_TOKEN}}
 
       - name: Install dependencies
-        run: npm i
+        run: |
+          npm i -g expo-cli
+          npm i
 
       - name: Login to Expo
         env:
