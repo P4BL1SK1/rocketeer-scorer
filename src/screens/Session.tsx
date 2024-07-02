@@ -28,6 +28,11 @@ export const Session = ({ navigation }: HomeProps) => {
     await playSound(getRandomSound());
   };
 
+  const onPressReset = async () => {
+    dispatch(reset());
+    dispatch(updateSession(id));
+  };
+
   const onPressFinish = async () => {
     dispatch(finishSession(id));
     navigation.navigate('Home');
@@ -39,7 +44,7 @@ export const Session = ({ navigation }: HomeProps) => {
         <DialogButtonIcon
           icon="backup-restore"
           dialogText="Are you sure you want to reset the scorer?"
-          onAccept={() => dispatch(reset())}
+          onAccept={onPressReset}
           onCancel={() => {
             return;
           }}

@@ -23,10 +23,10 @@ export const scorerSlice = createSlice({
       state.currentSession.lost += 1;
     },
     reset: (state) => {
-      state.currentSession.counter = initialState.currentSession.counter;
-      state.currentSession.played = initialState.currentSession.played;
-      state.currentSession.won = initialState.currentSession.won;
-      state.currentSession.lost = initialState.currentSession.lost;
+      state.currentSession.counter = 0;
+      state.currentSession.played = 0;
+      state.currentSession.won = 0;
+      state.currentSession.lost = 0;
     },
   },
   extraReducers: (builder) => {
