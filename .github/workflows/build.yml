@@ -37,10 +37,5 @@ jobs:
           npm i -g expo-cli
           npm i
 
-      - name: Login to Expo
-        env:
-          EXPO_TOKEN: ${{secrets.EXPO_TOKEN}}
-        run: expo login -u ${{secrets.EXPO_USERNAME}} -p ${{secrets.EXPO_PASSWORD}}
-
       - name: Build APK
-        run: eas build --profile dev -p android
+        run: eas build --profile dev -p android --non-interactive --no-wait
