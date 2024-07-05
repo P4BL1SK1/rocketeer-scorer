@@ -61,16 +61,16 @@ export const Session = ({ navigation }: HomeProps) => {
       </View>
       <GamesPlayed played={played} />
       <View style={styles.buttonsContainer}>
-        <StyledButton onPress={onPressDecrement} color={colors.cancel}>
-          Perdido
-        </StyledButton>
         <StyledButton onPress={onPressIncrement} color={colors.success}>
-          Ganado
+          Won
+        </StyledButton>
+        <StyledButton onPress={onPressDecrement} color={colors.cancel}>
+          Lost
         </StyledButton>
       </View>
       <View style={styles.finishContainer}>
         <StyledButton onPress={onPressFinish} color={colors.shadow}>
-          Finalizar
+          Finish
         </StyledButton>
       </View>
     </View>

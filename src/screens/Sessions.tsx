@@ -1,4 +1,6 @@
+import { prop, sortBy } from 'ramda';
 import { DataTable } from 'react-native-paper';
+import { StatusCircle } from '../components';
 import { useAppSelector } from '../store';
 
 export const Sessions = () => {
@@ -13,13 +15,15 @@ export const Sessions = () => {
         <DataTable.Title>Lost</DataTable.Title>
         <DataTable.Title>Status</DataTable.Title>
       </DataTable.Header>
-      {sessions.map(({ id, counter, played, won, lost, active }) => (
+      {sortBy(prop('created'), sessions).map(({ id, counter, played, won, lost, active }) => (
         <DataTable.Row key={id}>
           <DataTable.Cell>{counter}</DataTable.Cell>
           <DataTable.Cell>{played}</DataTable.Cell>
           <DataTable.Cell>{won}</DataTable.Cell>
           <DataTable.Cell>{lost}</DataTable.Cell>
-          <DataTable.Cell>{active ? 'Active' : 'Finalized'}</DataTable.Cell>
+          <DataTable.Cell>
+            <StatusCircle active={active} />
+          </DataTable.Cell>
         </DataTable.Row>
       ))}
     </DataTable>

@@ -16,7 +16,7 @@ export const GamesPlayed = ({ played }: GamesPlayedProps) => {
         backgroundColor: colors.secondaryContainer,
       }}
     >
-      <Text style={styles.textValue}>Partidos jugados: {played}</Text>
+      <Text style={styles.textValue}>Games played: {played}</Text>
     </View>
   );
 };

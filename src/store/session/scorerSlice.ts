@@ -50,7 +50,9 @@ export const scorerSlice = createSlice({
       const index = state.sessions.findIndex((session) => session.id === action.payload.id);
       state.sessions[index] = action.payload;
     });
-    builder.addCase(finishSession.fulfilled, (state) => {
+    builder.addCase(finishSession.fulfilled, (state, action: PayloadAction<string>) => {
+      const sessionEnded = state.sessions.find((session) => session.id === action.payload);
+      sessionEnded.active = false;
       state.currentSession = null;
     });
   },
