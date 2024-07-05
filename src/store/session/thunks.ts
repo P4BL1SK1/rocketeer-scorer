@@ -39,4 +39,5 @@ export const updateSession = createAsyncThunk('session/update', async (id: strin
 
 export const finishSession = createAsyncThunk('session/finish', async (id: string) => {
   await updateDoc(doc(database, 'sessions', id), { active: false });
+  return id;
 });
