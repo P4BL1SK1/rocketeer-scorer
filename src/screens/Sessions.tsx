@@ -1,4 +1,3 @@
-import { prop, sortBy } from 'ramda';
 import { DataTable } from 'react-native-paper';
 import { StatusCircle } from '../components';
 import { useAppSelector } from '../store';
@@ -15,7 +14,7 @@ export const Sessions = () => {
         <DataTable.Title>Lost</DataTable.Title>
         <DataTable.Title>Status</DataTable.Title>
       </DataTable.Header>
-      {sortBy(prop('created'), sessions).map(({ id, counter, played, won, lost, active }) => (
+      {sessions.map(({ id, counter, played, won, lost, active }) => (
         <DataTable.Row key={id}>
           <DataTable.Cell>{counter}</DataTable.Cell>
           <DataTable.Cell>{played}</DataTable.Cell>

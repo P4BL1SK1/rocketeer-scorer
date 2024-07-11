@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore/lite';
+
 export type Session = {
   id?: string;
   counter: number;
@@ -5,5 +7,5 @@ export type Session = {
   won: number;
   lost: number;
   active: boolean;
-  created?: string;
+  created?: Timestamp;
 };
