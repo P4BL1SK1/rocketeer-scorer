@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import dayjs from 'dayjs';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
-import { addDoc, collection, doc, DocumentData, getDocs, updateDoc } from 'firebase/firestore/lite';
+import { addDoc, collection, doc, DocumentData, getDocs, Timestamp, updateDoc } from 'firebase/firestore/lite';
 import { database } from '../../firebase/config';
 import { Session } from '../../types';
 import { RootState } from '../store';
@@ -12,7 +11,7 @@ const newSession = {
   won: 0,
   lost: 0,
   active: true,
-  created: dayjs().format('DD-MM-YYYY HH:mm:ss'),
+  created: Timestamp.fromDate(new Date()),
 };
 
 export const createSession = createAsyncThunk('session/create', async () => {
