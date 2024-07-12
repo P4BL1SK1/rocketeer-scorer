@@ -1,9 +1,16 @@
+import { useEffect, useState } from 'react';
 import { DataTable } from 'react-native-paper';
 import { StatusCircle } from '../components';
-import { useAppSelector } from '../store';
+import { unsubscribeSessions } from '../helpers';
+import { Session } from '../types';
 
-export const Sessions = () => {
-  const { sessions } = useAppSelector((state) => state.scorer);
+export const SessionsScreen = () => {
+  const [sessions, setSessions] = useState<Session[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = unsubscribeSessions(setSessions);
+    return () => unsubscribe();
+  }, []);
 
   return (
     <DataTable>
