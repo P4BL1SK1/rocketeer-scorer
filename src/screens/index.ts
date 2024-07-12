@@ -1,3 +1,3 @@
-export * from './Home';
-export * from './Session';
-export * from './Sessions';
+export * from './HomeScreen';
+export * from './SessionScreen';
+export * from './SessionsScreen';

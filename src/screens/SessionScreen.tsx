@@ -1,41 +1,54 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { doc, updateDoc } from 'firebase/firestore';
+import { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useTheme } from '../../theme';
 import { GamesPlayed } from '../components';
 import { DialogButtonIcon, StyledButton } from '../components/common';
-import { getRandomSound, playSound } from '../helpers';
+import { database } from '../firebase/config';
+import { getRandomSound, playSound, unsubscribeSession } from '../helpers';
 import { RootStackParamList } from '../navigation';
-import { useAppDispatch, useAppSelector } from '../store';
-import { decrement, finishSession, increment, reset, updateSession } from '../store/session';
+import { Session } from '../types';
+import { SESSIONS } from '../utils/constants';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
-export const Session = ({ navigation }: HomeProps) => {
+export const SessionScreen = ({ navigation, route }: HomeProps) => {
   const { colors } = useTheme();
-  const dispatch = useAppDispatch();
-  const { id, counter, played } = useAppSelector((state) => state.scorer.currentSession);
+  const [currentSession, setCurrentSession] = useState<Session | null>(null);
+  const { counter, played, won, lost } = currentSession || {};
+
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = unsubscribeSession(route.params.id, setCurrentSession);
+      return () => unsubscribe();
+    }, [])
+  );
 
   const onPressIncrement = async () => {
-    dispatch(increment());
-    dispatch(updateSession(id));
+    updateSession({ counter: counter + 1, played: played + 1, won: won + 1 });
     await playSound(getRandomSound());
   };
 
   const onPressDecrement = async () => {
-    dispatch(decrement());
-    dispatch(updateSession(id));
+    updateSession({ counter: counter - 1, played: played + 1, won: lost + 1 });
     await playSound(getRandomSound());
   };
 
   const onPressReset = async () => {
-    dispatch(reset());
-    dispatch(updateSession(id));
+    updateSession({ counter: 0, played: 0, won: 0, lost: 0 });
   };
 
   const onPressFinish = async () => {
-    dispatch(finishSession(id));
+    await updateSession({ active: false });
     navigation.navigate('Home');
+  };
+
+  const updateSession = async (updatedSession: Partial<Session>) => {
+    const sessionRef = doc(database, SESSIONS, route.params.id);
+    await updateDoc(sessionRef, updatedSession);
   };
 
   return (

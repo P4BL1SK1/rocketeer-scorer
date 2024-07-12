@@ -38,4 +38,4 @@ jobs:
           npm i
 
       - name: Build APK
-        run: eas build --profile dev -p android --non-interactive --no-wait
+        run: eas build --profile dev -p android --non-interactive
