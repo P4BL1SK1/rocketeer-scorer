@@ -7,12 +7,13 @@ import { StyledButton } from './StyledButton';
 type DialogButtonIconProps = {
   icon: string;
   dialogText: string;
+  color: string;
   onAccept: Function;
   onCancel: Function;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
-export const DialogButtonIcon = ({ icon, dialogText, onAccept, onCancel, disabled }: DialogButtonIconProps) => {
+export const DialogButtonIcon = ({ icon, color, dialogText, onAccept, onCancel, disabled }: DialogButtonIconProps) => {
   const { colors } = useTheme();
   const [visible, setVisible] = useState(false);
 
@@ -31,7 +32,7 @@ export const DialogButtonIcon = ({ icon, dialogText, onAccept, onCancel, disable
 
   return (
     <View>
-      <IconButton icon={icon} onPress={handleOpen} iconColor={colors.reset} disabled={disabled} />
+      <IconButton icon={icon} onPress={handleOpen} iconColor={color} disabled={disabled} />
       <Portal>
         <Dialog visible={visible} onDismiss={handleDismiss}>
           <Dialog.Title>Alert</Dialog.Title>

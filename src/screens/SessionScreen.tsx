@@ -1,54 +1,47 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { doc, updateDoc } from 'firebase/firestore';
 import { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useTheme } from '../../theme';
 import { GamesPlayed } from '../components';
 import { DialogButtonIcon, StyledButton } from '../components/common';
-import { database } from '../firebase/config';
-import { getRandomSound, playSound, unsubscribeSession } from '../helpers';
+import { getRandomSound, playSound, unsubscribeSession, updateSession } from '../helpers';
 import { RootStackParamList } from '../navigation';
 import { Session } from '../types';
-import { SESSIONS } from '../utils/constants';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
 export const SessionScreen = ({ navigation, route }: HomeProps) => {
+  const sessionId = route.params.id;
   const { colors } = useTheme();
   const [currentSession, setCurrentSession] = useState<Session | null>(null);
   const { counter, played, won, lost } = currentSession || {};
 
   useFocusEffect(
     useCallback(() => {
-      const unsubscribe = unsubscribeSession(route.params.id, setCurrentSession);
+      const unsubscribe = unsubscribeSession(sessionId, setCurrentSession);
       return () => unsubscribe();
     }, [])
   );
 
   const onPressIncrement = async () => {
-    updateSession({ counter: counter + 1, played: played + 1, won: won + 1 });
+    updateSession({ counter: counter + 1, played: played + 1, won: won + 1 }, sessionId);
     await playSound(getRandomSound());
   };
 
   const onPressDecrement = async () => {
-    updateSession({ counter: counter - 1, played: played + 1, won: lost + 1 });
+    updateSession({ counter: counter - 1, played: played + 1, lost: lost + 1 }, sessionId);
     await playSound(getRandomSound());
   };
 
   const onPressReset = async () => {
-    updateSession({ counter: 0, played: 0, won: 0, lost: 0 });
+    updateSession({ counter: 0, played: 0, won: 0, lost: 0 }, sessionId);
   };
 
   const onPressFinish = async () => {
-    await updateSession({ active: false });
+    updateSession({ active: false }, sessionId);
     navigation.navigate('Home');
-  };
-
-  const updateSession = async (updatedSession: Partial<Session>) => {
-    const sessionRef = doc(database, SESSIONS, route.params.id);
-    await updateDoc(sessionRef, updatedSession);
   };
 
   return (
@@ -57,6 +50,7 @@ export const SessionScreen = ({ navigation, route }: HomeProps) => {
         <DialogButtonIcon
           icon="backup-restore"
           dialogText="Are you sure you want to reset the scorer?"
+          color={colors.reset}
           onAccept={onPressReset}
           onCancel={() => {
             return;
@@ -64,12 +58,7 @@ export const SessionScreen = ({ navigation, route }: HomeProps) => {
           disabled={played === 0}
         />
       </View>
-      <View
-        style={{
-          ...styles.counterValueContainer,
-          backgroundColor: colors.secondaryContainer,
-        }}
-      >
+      <View style={styles.counterValueContainer}>
         <Text style={styles.counterValue}>{counter}</Text>
       </View>
       <GamesPlayed played={played} />
@@ -82,7 +71,7 @@ export const SessionScreen = ({ navigation, route }: HomeProps) => {
         </StyledButton>
       </View>
       <View style={styles.finishContainer}>
-        <StyledButton onPress={onPressFinish} color={colors.shadow}>
+        <StyledButton onPress={onPressFinish} color={colors.finish}>
           Finish
         </StyledButton>
       </View>
@@ -106,7 +95,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   counterValueContainer: {
-    borderRadius: 17,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 50,
     width: 250,
   },
   counterValue: {
