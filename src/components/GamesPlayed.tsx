@@ -10,12 +10,7 @@ export const GamesPlayed = ({ played }: GamesPlayedProps) => {
   const { colors } = useTheme();
 
   return (
-    <View
-      style={{
-        ...styles.container,
-        backgroundColor: colors.secondaryContainer,
-      }}
-    >
+    <View style={styles.container}>
       <Text style={styles.textValue}>Games played: {played}</Text>
     </View>
   );
@@ -25,11 +20,12 @@ const styles = StyleSheet.create({
   container: {
     width: 250,
     height: 40,
-    borderRadius: 10,
+    borderRadius: 50,
     marginTop: 20,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   textValue: {
     fontSize: 20,

@@ -1,13 +1,17 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   DocumentData,
   getDocs,
   onSnapshot,
+  orderBy,
+  query,
   QueryDocumentSnapshot,
   Timestamp,
   Unsubscribe,
+  updateDoc,
 } from 'firebase/firestore';
 import { database } from '../firebase/config';
 import { Session } from '../types';
@@ -48,7 +52,7 @@ export const unsubscribeSession = (
 };
 
 export const unsubscribeSessions = (setSessions: (sessions: Session[]) => void): Unsubscribe => {
-  const sessionsRef = collection(database, SESSIONS);
+  const sessionsRef = query(collection(database, SESSIONS), orderBy('created', 'desc'));
   const unsubscribe = onSnapshot(sessionsRef, (snapshot) => {
     const data: Session[] = [];
     snapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
@@ -57,4 +61,14 @@ export const unsubscribeSessions = (setSessions: (sessions: Session[]) => void):
     setSessions(data);
   });
   return unsubscribe;
+};
+
+export const updateSession = async (session: Partial<Session>, sessionId: string) => {
+  const sessionRef = doc(database, SESSIONS, sessionId);
+  await updateDoc(sessionRef, session);
+};
+
+export const deleteSession = async (sessionId: string) => {
+  const sessionRef = doc(database, SESSIONS, sessionId);
+  await deleteDoc(sessionRef);
 };
