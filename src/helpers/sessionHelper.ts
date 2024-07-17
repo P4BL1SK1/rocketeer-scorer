@@ -1,3 +1,4 @@
+import { Dispatch } from '@reduxjs/toolkit';
 import {
   addDoc,
   collection,
@@ -14,6 +15,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { database } from '../firebase/config';
+import { setActiveSession, setSessions } from '../store/session';
 import { Session } from '../types';
 import { SESSIONS } from '../utils/constants';
 
@@ -39,26 +41,23 @@ export const getActiveSession = async (): Promise<Session | null> => {
   return activeSession || null;
 };
 
-export const unsubscribeSession = (
-  sessionId: string,
-  setCurrentSession: (session: Session | null) => void
-): Unsubscribe => {
+export const unsubscribeSession = (sessionId: string, dispatch: Dispatch): Unsubscribe => {
   const sessionRef = doc(database, SESSIONS, sessionId);
   const unsubscribe = onSnapshot(sessionRef, (snapshot) => {
     const data = { id: snapshot.id, ...(snapshot.data() as Session) };
-    setCurrentSession(data);
+    dispatch(setActiveSession(data));
   });
   return unsubscribe;
 };
 
-export const unsubscribeSessions = (setSessions: (sessions: Session[]) => void): Unsubscribe => {
+export const unsubscribeSessions = (dispatch: Dispatch): Unsubscribe => {
   const sessionsRef = query(collection(database, SESSIONS), orderBy('created', 'desc'));
   const unsubscribe = onSnapshot(sessionsRef, (snapshot) => {
     const data: Session[] = [];
     snapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
       data.push({ id: doc.id, ...doc.data() } as Session);
     });
-    setSessions(data);
+    dispatch(setSessions(data));
   });
   return unsubscribe;
 };

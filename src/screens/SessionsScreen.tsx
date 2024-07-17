@@ -1,21 +1,18 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { DataTable } from 'react-native-paper';
 import { useTheme } from '../../theme';
 import { SessionStatus } from '../components';
 import { DialogButtonIcon } from '../components/common';
 import { deleteSession, unsubscribeSessions } from '../helpers';
-import { RootStackParamList } from '../navigation';
-import { Session } from '../types';
+import { useAppDispatch, useAppSelector } from '../store';
 
-type SessionsProps = NativeStackScreenProps<RootStackParamList, 'Sessions'>;
-
-export const SessionsScreen = ({ navigation }: SessionsProps) => {
+export const SessionsScreen = () => {
+  const dispatch = useAppDispatch();
   const { colors } = useTheme();
-  const [sessions, setSessions] = useState<Session[]>([]);
+  const { sessions } = useAppSelector((state) => state.scorer);
 
   useEffect(() => {
-    const unsubscribe = unsubscribeSessions(setSessions);
+    const unsubscribe = unsubscribeSessions(dispatch);
     return () => unsubscribe();
   }, []);
 
@@ -36,7 +33,7 @@ export const SessionsScreen = ({ navigation }: SessionsProps) => {
           <DataTable.Cell>{won}</DataTable.Cell>
           <DataTable.Cell>{lost}</DataTable.Cell>
           <DataTable.Cell>
-            <SessionStatus id={id} active={active} navigation={navigation} />
+            <SessionStatus id={id} active={active} />
           </DataTable.Cell>
           <DataTable.Cell>
             <DialogButtonIcon
