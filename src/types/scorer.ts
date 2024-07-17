@@ -1,7 +1,7 @@
 import { Session } from './';
 
 export type Scorer = {
-  currentSession: Session;
+  currentSession: Session | null;
   sessions: Session[];
   loading: boolean;
 };

@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useTheme } from '../../theme';
 import { Header } from '../components';
@@ -8,19 +8,21 @@ import { StyledButton } from '../components/common';
 import { createSession } from '../helpers';
 import { getActiveSession } from '../helpers/sessionHelper';
 import { RootStackParamList } from '../navigation';
-import { Session } from '../types';
+import { useAppDispatch, useAppSelector } from '../store';
+import { setActiveSession } from '../store/session';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export const HomeScreen = ({ navigation }: HomeProps) => {
   const { colors } = useTheme();
-  const [currentSession, setCurrentSession] = useState<Session | null>(null);
+  const dispatch = useAppDispatch();
+  const { currentSession } = useAppSelector((state) => state.scorer);
 
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
         const activeSession = await getActiveSession();
-        setCurrentSession(activeSession);
+        dispatch(setActiveSession(activeSession));
       };
       fetchData();
     }, [])
@@ -28,7 +30,7 @@ export const HomeScreen = ({ navigation }: HomeProps) => {
 
   const onPressNewSession = async () => {
     const newSession = await createSession();
-    setCurrentSession(newSession);
+    dispatch(setActiveSession(newSession));
     navigation.navigate('Session', { id: newSession.id });
   };
 

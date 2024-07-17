@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useTheme } from '../../theme';
@@ -8,19 +8,20 @@ import { GamesPlayed } from '../components';
 import { DialogButtonIcon, StyledButton } from '../components/common';
 import { getRandomSound, playSound, unsubscribeSession, updateSession } from '../helpers';
 import { RootStackParamList } from '../navigation';
-import { Session } from '../types';
+import { useAppDispatch, useAppSelector } from '../store';
 
-type HomeProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
+type SessionProps = NativeStackScreenProps<RootStackParamList, 'Session'>;
 
-export const SessionScreen = ({ navigation, route }: HomeProps) => {
+export const SessionScreen = ({ navigation, route }: SessionProps) => {
   const sessionId = route.params.id;
   const { colors } = useTheme();
-  const [currentSession, setCurrentSession] = useState<Session | null>(null);
-  const { counter, played, won, lost } = currentSession || {};
+  const dispatch = useAppDispatch();
+  const { currentSession } = useAppSelector((state) => state.scorer);
+  const { counter, played, won, lost } = currentSession;
 
   useFocusEffect(
     useCallback(() => {
-      const unsubscribe = unsubscribeSession(sessionId, setCurrentSession);
+      const unsubscribe = unsubscribeSession(sessionId, dispatch);
       return () => unsubscribe();
     }, [])
   );
